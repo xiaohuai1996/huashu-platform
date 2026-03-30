@@ -37,6 +37,7 @@ function Dashboard({ onLogout }) {
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [expandedNavs, setExpandedNavs] = useState({});
   const [avatarOpen, setAvatarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user') || '{}'));
   const avatarUrl = localStorage.getItem('avatarUrl') || '';
 
@@ -323,7 +324,7 @@ function Dashboard({ onLogout }) {
 
       <div className="dashboard-layout">
         {/* Left Sidebar - Categories */}
-        <aside className="left-sidebar">
+        <aside className={`left-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
           {/* "全部" category at top */}
           <div
             className={`nav-group-item ${selectedCategory === '全部' ? 'active' : ''}`}
@@ -448,6 +449,14 @@ function Dashboard({ onLogout }) {
             </div>
           )}
         </main>
+        
+        {/* Mobile Sidebar Toggle Button */}
+        <button 
+          className="sidebar-toggle-btn"
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+        >
+          {sidebarCollapsed ? '📂 展开导航' : '⬆️ 收起导航'}
+        </button>
       </div>
 
       {selectedScript && (
