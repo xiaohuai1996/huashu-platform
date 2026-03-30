@@ -445,6 +445,10 @@ function HomePage({ onLogout }) {
             
             {avatarOpen && (
               <div className="avatar-dropdown">
+                <div className="dropdown-mobile-header">
+                  <span className="dropdown-mobile-title">菜单</span>
+                  <button className="dropdown-mobile-close" onClick={() => setAvatarOpen(false)}>✕</button>
+                </div>
                 <div className="dropdown-user-info">
                   <div className="dropdown-user-name">{displayName}</div>
                   <div className="dropdown-user-signature">
