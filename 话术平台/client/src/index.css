@@ -38,7 +38,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 0;
-  overflow-y: auto; /* Sidebar scroll */
+  overflow: hidden;
 }
 
 .gradient-sphere {
@@ -1359,7 +1359,6 @@ body {
   position: relative;
   padding: 140px 40px 60px;
   text-align: center;
-  overflow-y: auto; /* Sidebar scroll */
 }
 
 .hero-bg {
@@ -1368,7 +1367,6 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto; /* Sidebar scroll */
 }
 
 .hero-sphere {
@@ -6069,6 +6067,11 @@ body {
   }
 }
 
+/* Desktop: hide sidebar toggle button by default */
+.sidebar-toggle-btn {
+  display: none !important;
+}
+
 /* Mobile Sidebar Toggle - Show/hide sidebar */
 @media (max-width: 768px) {
   /* Sidebar collapsed state - completely hidden */
@@ -6085,9 +6088,9 @@ body {
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
   
-  /* Toggle button for sidebar - always visible */
+  /* Toggle button for sidebar - show on mobile only */
   .sidebar-toggle-btn {
-    display: flex;
+    display: flex !important;
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -6113,6 +6116,13 @@ body {
   .left-sidebar.collapsed ~ .dashboard-content,
   .dashboard-layout .dashboard-content {
     padding-bottom: 80px;
+  }
+}
+
+/* Desktop sidebar toggle - hidden */
+@media (min-width: 769px) {
+  .sidebar-toggle-btn {
+    display: none !important;
   }
 }
 
