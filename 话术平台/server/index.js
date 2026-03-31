@@ -3,6 +3,7 @@ import cors from 'cors';
 import initSqlJs from 'sql.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -18,8 +19,12 @@ const SERVER_START_TIME = Date.now();
 
 // Middleware
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: '100mb' }));
 
+
+// Serve uploaded images
+const uploadsDir = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsDir, { maxAge: '7d', etag: true }));
 // Server uptime endpoint
 app.get('/api/uptime', (req, res) => {
   res.json({ startTime: SERVER_START_TIME });
@@ -312,6 +317,50 @@ const authenticateToken = (req, res, next) => {
     return res.status(403).json({ error: '登录已过期，请重新登录' });
   }
 };
+
+
+// Multer configuration for image uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, `img-${uniqueSuffix}${ext}`);
+  }
+});
+
+const upload = multer({ 
+  storage, 
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB per image
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+});
+
+// Image upload endpoint
+app.post('/api/upload', authenticateToken, upload.single('image'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+    const imageUrl = `/uploads/${req.file.filename}`;
+    console.log('Image uploaded:', imageUrl);
+    res.json({ url: imageUrl, filename: req.file.filename });
+  } catch (err) {
+    console.error('Upload error:', err);
+    res.status(500).json({ error: 'Upload failed' });
+  }
+});
 
 // ============ AUTH ROUTES ============
 
@@ -1045,11 +1094,11 @@ app.get('/api/categories', authenticateToken, (req, res) => {
   try {
     // Get categories from script_categories table with script count
     const result = db.exec(`
-      SELECT sc.id, sc.name, sc.emoji, sc.sort_order, 
+      SELECT sc.id, sc.name, sc.emoji, sc.sort_order, sc.nav_group, 
              COUNT(s.id) as script_count 
       FROM script_categories sc
       LEFT JOIN scripts s ON s.category = sc.name
-      GROUP BY sc.id, sc.name, sc.emoji, sc.sort_order
+      GROUP BY sc.id, sc.name, sc.emoji, sc.sort_order, sc.nav_group
       ORDER BY sc.sort_order ASC, sc.name ASC
     `);
     
@@ -1171,7 +1220,11 @@ app.post('/api/scripts', authenticateToken, (req, res) => {
     
     const safeTitle = title.trim();
     const safeCategory = category.trim();
-    const safeContent = content.trim();
+    const safeContent = content.trim()
+  .replace(/<p[^>]*>\s*<\/p>/gi, '')  // Remove empty p tags
+  .replace(/(<br\s*\/?>){3,}/gi, '<br><br>')  // Max 2 br tags
+  .replace(/<p[^>]*>\s*<br\s*\/?>\s*<\/p>/gi, '')  // Remove p with only br
+  .replace(/\s+/g, ' ');  // Normalize whitespace
     const safeTags = tags || '';
     const safeNavGroup = nav_group || '';
     

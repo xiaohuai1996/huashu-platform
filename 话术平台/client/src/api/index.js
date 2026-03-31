@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: '/api',
-  timeout: 10000,
+  timeout: 120000, // 120 seconds for large requests
 });
 
 // Add token to requests
@@ -72,6 +72,17 @@ export const inviteAPI = {
   getCodes: () => api.get('/invite-codes'),
   generateCodes: (count) => api.post('/invite-codes', { count }),
   deleteCode: (code) => api.delete(`/invite-codes/${code}`),
+};
+
+export const uploadAPI = {
+  uploadImage: (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return api.post('/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 60000, // 60 seconds for image upload
+    });
+  },
 };
 
 export default api;

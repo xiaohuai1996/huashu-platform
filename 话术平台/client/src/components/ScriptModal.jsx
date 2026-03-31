@@ -49,14 +49,26 @@ function ScriptModal({ script, user, onClose, onCopy, onToggleFavorite, onDelete
     let imgHtml = '';
     
     parts.forEach((part, i) => {
-      if (part.trim()) {
-        textHtml += `<p class="content-text">${part.replace(/\n/g, '<br/>')}</p>`;
-      }
+      // First, handle images (always process them)
       if (images[i]) {
-        // Extract src from img tag
         const srcMatch = images[i].match(/src=["']([^"']+)["']/);
         const src = srcMatch ? srcMatch[1] : '';
         imgHtml += `<div class="content-img-box"><img src="${src}" onclick="document.getElementById('img-lightbox').style.display='flex';document.getElementById('lightbox-img').src='${src}';" /></div>`;
+      }
+      
+      // Then handle text (only if there's actual content)
+      if (part.trim()) {
+        const textOnly = part.replace(/<br\s*\/?>/gi, '').trim();
+        if (textOnly) {
+          const cleaned = part
+            .replace(/<br\s*\/?>\s*/gi, '<br>')
+            .replace(/(<br>){3,}/gi, '<br><br>')
+            .replace(/\s+/g, ' ')
+            .trim();
+          if (cleaned) {
+            textHtml += `<p class="content-text">${cleaned}</p>`;
+          }
+        }
       }
     });
     

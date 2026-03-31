@@ -1757,7 +1757,7 @@ body {
 .hot-script-image {
   width: 100%;
   height: 100px;
-  overflow-y: auto; /* Sidebar scroll */
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -4370,7 +4370,7 @@ body {
 .script-card-image {
   width: 100%;
   height: 100px;
-  overflow-y: auto; /* Sidebar scroll */
+  overflow-y: auto;
   border-radius: 10px;
   margin-bottom: 12px;
   background: rgba(255, 255, 255, 0.05);
@@ -4701,22 +4701,347 @@ body {
 }
 
 .script-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: none;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 16px;
   padding: 24px;
+  min-height: 0;
   font-size: 15px;
   line-height: 1.9;
   color: var(--text-secondary);
-  white-space: pre-wrap;
+  white-space: normal;
   margin-bottom: 24px;
 }
 
 .content-text-box {
-  margin-bottom: 16px;
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
 }
 
 .content-text {
-  margin-bottom: 12px;
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text-box {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.content-text {
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  width: 100%;
+  font-size: inherit;
+}
+
+.content-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+}
+.content-text p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
 }
 
 .content-images-box {
@@ -5091,7 +5416,7 @@ body {
   }
   
   .modal-content {
-    max-height: 85vh;
+    max-height: 80vh;
     border-radius: 16px;
     padding: 16px;
   }

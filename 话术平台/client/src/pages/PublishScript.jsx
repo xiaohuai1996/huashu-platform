@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { scriptsAPI } from '../api';
+import { scriptsAPI, uploadAPI } from '../api';
 
 const EMOJI_LIST = ['📚', '💬', '👋', '📦', '🤝', '💭', '🔗', '📨', '📺', '📝', '🛎️', '🔥', '⭐', '🌟', '💡', '🎯', '🚀', '💪', '👏', '🎉'];
 
@@ -20,6 +20,11 @@ function PublishScript() {
   });
   const [showNavPicker, setShowNavPicker] = useState(false);
   const [showCatPicker, setShowCatPicker] = useState(false);
+
+  // Filter categories based on selected nav_group
+  const filteredCategories = categories.filter(cat => 
+    cat.nav_group && cat.nav_group === formData.nav_group
+  );
 
   useEffect(() => {
     loadData();
@@ -110,10 +115,11 @@ function PublishScript() {
         }
         
         try {
-          const base64 = await blobToBase64(blob);
+          const response = await uploadAPI.uploadImage(blob);
+          const imageUrl = response.data.url;
           setFormData(prev => ({
             ...prev,
-            images: [...prev.images, base64]
+            images: [...prev.images, imageUrl]
           }));
           showToast('✅ 图片已粘贴！');
         } catch (err) {
@@ -123,15 +129,6 @@ function PublishScript() {
         break;
       }
     }
-  };
-
-  const blobToBase64 = (blob) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
   };
 
   const renderContent = (content) => {
@@ -151,10 +148,11 @@ function PublishScript() {
     }
     
     try {
-      const base64 = await blobToBase64(file);
+      const response = await uploadAPI.uploadImage(file);
+          const imageUrl = response.data.url;
       setFormData(prev => ({
         ...prev,
-        images: [...prev.images, base64]
+        images: [...prev.images, imageUrl]
       }));
       showToast('✅ 图片已添加！');
     } catch (err) {
@@ -255,18 +253,24 @@ function PublishScript() {
               </button>
               {showCatPicker && (
                 <div className="ps-picker-list">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.id}
-                      className="ps-picker-option"
-                      onClick={() => {
-                        setFormData({ ...formData, category: cat.name });
-                        setShowCatPicker(false);
-                      }}
-                    >
-                      {cat.emoji} {cat.name}
-                    </button>
-                  ))}
+                  {filteredCategories.length === 0 ? (
+                    <div style={{ padding: '12px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>
+                      该导航下暂无分类
+                    </div>
+                  ) : (
+                    filteredCategories.map((cat) => (
+                      <button
+                        key={cat.id}
+                        className="ps-picker-option"
+                        onClick={() => {
+                          setFormData({ ...formData, category: cat.name });
+                          setShowCatPicker(false);
+                        }}
+                      >
+                        {cat.emoji} {cat.name}
+                      </button>
+                    ))
+                  )}
                 </div>
               )}
             </div>
